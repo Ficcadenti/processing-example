@@ -87,13 +87,46 @@ public class Giardino extends Centro
 		return result;
 	}
 
-	public boolean interferisce(Giardino g)
+	public boolean interferisce(Giardino g2)
 	{
+
 		boolean bRet = false;
-		if (super.getCentro().equals(g.getCentro()))
+
+		if (super.getCentro().equals(g2.getCentro())) // i centri coincidono
 		{
 			bRet = true;
 		}
+
+		// controllo eventuali interferenze lungo X
+		if ((g2.getgXS() < this.getgXD()) && (g2.getgXS() > this.getgXS()))
+		{
+			bRet = true;
+		}
+		else if ((g2.getgXD() > this.getgXS()) && (g2.getgXD() < this.getgXD()))
+		{
+			bRet = true;
+		}
+		else if ((g2.getgXS() < this.getgXS()) && (g2.getgXD() > this.getgXD()))
+		{
+			bRet = true;
+		}
+
+		if (!bRet) // non ce interferenza lungo l'asse X, controllo p'asse Y
+		{
+			if ((g2.getgYT() < this.getgYD()) && (g2.getgYT() > this.getgYD()))
+			{
+				bRet = true;
+			}
+			else if ((g2.getgYD() > this.getgYT()) && (g2.getgYD() < this.getgYD()))
+			{
+				bRet = true;
+			}
+			else if ((g2.getgYT() < this.getgYT()) && (g2.getgYD() > this.getgYD()))
+			{
+				bRet = true;
+			}
+		}
+
 		return bRet;
 
 	}
