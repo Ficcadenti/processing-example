@@ -46,7 +46,16 @@ public class TestFS extends PApplet
 		this.generaPunti(200);
 		fs = new FileSystem(this, this.h, this.w);
 		fs.ls(new File("D:\\doganeprj"));
+		long timeSinceStart = System.currentTimeMillis();
 		fs.stampaAlbero();
+		long timeSinceStop = System.currentTimeMillis();
+
+		System.out.println("Time start                   : " + timeSinceStart + " (nanosecondi)");
+		System.out.println("Time stop                    : " + timeSinceStop + " (nanosecondi)");
+		System.out.println("Delta time                   : " + ((timeSinceStop - timeSinceStart)) + " (millisecondi)");
+		System.out.println("Collisioni                   : " + Matrice.getInstance().getCollisioniGlobali());
+		System.out.println("Directory con max figli : " + fs.getNomeMax());
+		System.out.println("Numero figli            : " + fs.getMax());
 
 	}
 

@@ -9,6 +9,7 @@ public class Matrice
 		if (istanza == null)
 		{
 			istanza = new Matrice();
+			istanza.setCollisioniGlobali(0);
 		}
 
 		return istanza;
@@ -20,6 +21,7 @@ public class Matrice
 	private int[][]	matrice;
 	private int		raggio;
 	private int		w;
+	private int		collisioniGlobali;
 
 	private Matrice()
 	{
@@ -41,8 +43,9 @@ public class Matrice
 		}
 	}
 
-	public Centro calcolaCentro()
+	public Centro calcolaCentro(int raggio)
 	{
+		this.collisioniGlobali++;
 		int cont = 1;
 		int possibileCentroX = (int) ((Math.random() * this.w) - 1);
 		int possibileCentroY = (int) ((Math.random() * this.h) - 1);
@@ -67,6 +70,11 @@ public class Matrice
 	public int getCentriTrovati()
 	{
 		return this.centriTrovati;
+	}
+
+	public int getCollisioniGlobali()
+	{
+		return this.collisioniGlobali;
 	}
 
 	private boolean isVuotoNeiDintorni(Centro c)
@@ -112,6 +120,11 @@ public class Matrice
 	public void setCentriTrovati(int centriTrovati)
 	{
 		this.centriTrovati = centriTrovati;
+	}
+
+	public void setCollisioniGlobali(int collisioniGlobali)
+	{
+		this.collisioniGlobali = collisioniGlobali;
 	}
 
 	public void setDistanzaMinima(int distanzaMinima)

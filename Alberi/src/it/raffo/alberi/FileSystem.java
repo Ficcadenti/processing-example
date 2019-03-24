@@ -12,6 +12,8 @@ public class FileSystem
 	private int		raggio;
 	private Nodo	root;
 	private int		w;
+	private int		max;
+	private String	nomeMax;
 
 	public FileSystem(PApplet pa, int w, int h)
 	{
@@ -22,11 +24,16 @@ public class FileSystem
 		this.h = h;
 		this.raggio = 5;
 		this.distanzaMinima = 0;
+		this.max = 0;
+		this.nomeMax = "----";
 		Matrice.getInstance().setW(this.w);
 		Matrice.getInstance().setH(this.h);
 		Matrice.getInstance().setRaggio(this.raggio);
 		Matrice.getInstance().setDistanzaMinima(this.distanzaMinima);
 		Matrice.getInstance().azzeraMatrice();
+		Terra.getInstance().setW(1900);
+		Terra.getInstance().setH(1600);
+
 	}
 
 	private void drawArco(Nodo nFrom, Nodo nTo)
@@ -52,6 +59,16 @@ public class FileSystem
 	public int getH()
 	{
 		return this.h;
+	}
+
+	public int getMax()
+	{
+		return this.max;
+	}
+
+	public String getNomeMax()
+	{
+		return this.nomeMax;
 	}
 
 	public PApplet getPa()
@@ -86,7 +103,7 @@ public class FileSystem
 			}
 
 			this.root = new Nodo(new Elemento(file.getName(), type, size, file));
-			this.root.setC(Matrice.getInstance().calcolaCentro());
+			this.root.setC(Matrice.getInstance().calcolaCentro(this.raggio));
 			this.ls(this.root);
 		}
 	}
@@ -99,14 +116,15 @@ public class FileSystem
 			if (f.isDirectory() && !f.isHidden())
 			{
 				Nodo n = new Nodo(new Elemento(f.getName(), "D", f.length(), f));
-				n.setC(Matrice.getInstance().calcolaCentro());
+				n.setNumeroFigli(filesList.length);
+				n.setC(Matrice.getInstance().calcolaCentro(this.raggio));
 				nodoCorrente.addFiglio(n);
 				this.ls(n);
 			}
 			if (f.isFile())
 			{
 				Nodo n = new Nodo(new Elemento(f.getName(), "F", f.length(), f));
-				n.setC(Matrice.getInstance().calcolaCentro());
+				n.setC(Matrice.getInstance().calcolaCentro(this.raggio));
 				nodoCorrente.addFiglio(n);
 			}
 		}
@@ -115,6 +133,16 @@ public class FileSystem
 	public void setH(int h)
 	{
 		this.h = h;
+	}
+
+	public void setMax(int max)
+	{
+		this.max = max;
+	}
+
+	public void setNomeMax(String nomeMax)
+	{
+		this.nomeMax = nomeMax;
 	}
 
 	public void setPa(PApplet pa)
@@ -162,6 +190,11 @@ public class FileSystem
 
 			for (Nodo n : nodoCorrente.getFigli())
 			{
+				if (n.getNumeroFigli() > this.max)
+				{
+					this.max = n.getNumeroFigli();
+					this.nomeMax = n.getElem().getFile().getAbsolutePath();
+				}
 				this.drawArco(nodoCorrente, n);
 				nodoCorrente.getC().getX();
 				this.stampaTxtFx(n);

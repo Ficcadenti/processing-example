@@ -1,4 +1,4 @@
-package it.raffo.fs;
+package it.raffo.alberi;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,13 +12,16 @@ public class Terra
 		if (istanza == null)
 		{
 			istanza = new Terra();
+			istanza.setCollisioniGlobali(0);
 
 		}
+
 		return istanza;
 	}
 
 	private int					h;
 	private int					w;
+	private int					collisioniGlobali;
 
 	private ArrayList<Giardino>	terra	= new ArrayList<>();
 
@@ -34,9 +37,10 @@ public class Terra
 
 	private Centro calcolaCentro(int collisione, int raggio)
 	{
-		System.out.println("Collisione N°: " + collisione++);
+		// System.out.println("Collisione N°: " + collisione++);
 
 		int cont = 1;
+		this.collisioniGlobali++;
 		int possibileCentroX = (int) ((Math.random() * this.w) - 1);
 		int possibileCentroY = (int) ((Math.random() * this.h) - 1);
 		Centro c = new Centro(possibileCentroX, possibileCentroY);
@@ -66,6 +70,11 @@ public class Terra
 		}
 		return c;
 
+	}
+
+	public int getCollisioniGlobali()
+	{
+		return this.collisioniGlobali;
 	}
 
 	public int getH()
@@ -103,6 +112,11 @@ public class Terra
 		}
 
 		return true;
+	}
+
+	private void setCollisioniGlobali(int collisioniGlobali)
+	{
+		this.collisioniGlobali = collisioniGlobali;
 	}
 
 	public void setH(int h)

@@ -9,6 +9,7 @@ public class Nodo
 	private Elemento	elem;
 	private List<Nodo>	figli;
 	private Nodo		padre;
+	private int			numeroFigli;
 
 	public Nodo()
 	{
@@ -20,6 +21,7 @@ public class Nodo
 	public Nodo(Elemento elem)
 	{
 		this.elem = elem;
+		this.numeroFigli = 0;
 		this.figli = null;
 		this.padre = null;
 	}
@@ -57,6 +59,11 @@ public class Nodo
 		return this.figli;
 	}
 
+	public int getNumeroFigli()
+	{
+		return this.numeroFigli;
+	}
+
 	public Nodo getPadre()
 	{
 		return this.padre;
@@ -75,6 +82,11 @@ public class Nodo
 	public void setFigli(List<Nodo> figli)
 	{
 		this.figli = figli;
+	}
+
+	public void setNumeroFigli(int numeroFigli)
+	{
+		this.numeroFigli = numeroFigli;
 	}
 
 	public void setPadre(Nodo padre)

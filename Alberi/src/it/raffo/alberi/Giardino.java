@@ -1,4 +1,4 @@
-package it.raffo.fs;
+package it.raffo.alberi;
 
 public class Giardino extends Centro
 {
