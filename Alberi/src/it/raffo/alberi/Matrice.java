@@ -50,19 +50,19 @@ public class Matrice
 		int possibileCentroX = (int) ((Math.random() * this.w) - 1);
 		int possibileCentroY = (int) ((Math.random() * this.h) - 1);
 		Centro c = new Centro(possibileCentroX, possibileCentroY);
-		System.out.println(c);
+		// System.out.println(c);
 		while (!this.isVuotoNeiDintorni(c))
 		{
 			if ((cont % 1000) == 0)
 			{
-				System.out.println("Collisione n°:" + cont++);
+				// System.out.println("Collisione n°:" + cont++);
 			}
 			possibileCentroX = (int) ((Math.random() * this.w) - 1);
 			possibileCentroY = (int) ((Math.random() * this.h) - 1);
 			c = new Centro(possibileCentroX, possibileCentroY);
 		}
 		cont = 1;
-		System.out.println("trovato centro (" + (++this.centriTrovati) + ": " + c);
+		// System.out.println("trovato centro (" + (++this.centriTrovati) + ": " + c);
 		this.stampaCentroSuMatrice(c);
 		return c;
 	}

@@ -1,25 +1,50 @@
 package it.raffo.giocodellavita;
 
+import it.raffo.giocodellavita.controller.GiocoDellaVita;
+import it.raffo.giocodellavita.model.Matrice;
 import processing.core.PApplet;
 
 public class LifeTest extends PApplet
 {
 
-	public static int	h	= 1900;
-	public static int	w	= 1600;
+	public static int	generazioni	= 0;
+	public static int	maxCellule	= 0;
+	public static int	hM			= 100;
+	public static int	wM			= 100;
+
+	public static int	h			= 800;
+	public static int	w			= 800;
 
 	public static void main(String[] args)
 	{
 		PApplet.main("it.raffo.giocodellavita.LifeTest");
-		Matrice.getInstance().setW(w);
-		Matrice.getInstance().setH(h);
-		Matrice.getInstance().azzeraMatrice();
 	}
 
 	@Override
 	public void draw()
 	{
+		this.background(0);
+		GiocoDellaVita.getInstance().start(Matrice.getInstance().getMatrice());
+		// this.delay(100);
+		GiocoDellaVita.getInstance().generazioneSuccessiva(Matrice.getInstance().getMatrice());
+		generazioni++;
+		this.drawGenerazioni();
+	}
 
+	public void drawGenerazioni()
+	{
+		this.pushMatrix();
+		this.fill(255);
+		this.textAlign(this.LEFT);
+		this.textFont(this.createFont("Arial", 32, true), 20);
+		int numCellule = GiocoDellaVita.getInstance().contaCellule();
+		if (numCellule > maxCellule)
+		{
+			maxCellule = numCellule;
+		}
+		this.text("Generazione : " + generazioni + ";      # Cellule : " + numCellule + ";      MAX Cellule : "
+				+ maxCellule, 150, (this.h + (50 + (20 / 2))));
+		this.popMatrix();
 	}
 
 	public void generaPunti(int i)
@@ -35,14 +60,22 @@ public class LifeTest extends PApplet
 	@Override
 	public void settings()
 	{
-		this.size(this.w, this.h);
+		this.size(this.w, this.h + 100);
 	}
 
 	@Override
 	public void setup()
 	{
 		this.background(0);
-		this.generaPunti(200);
+
+		GiocoDellaVita.getInstance().setW(w);
+		GiocoDellaVita.getInstance().setH(h);
+		GiocoDellaVita.getInstance().setwM(wM);
+		GiocoDellaVita.getInstance().sethM(hM);
+
+		GiocoDellaVita.getInstance().setPa(this);
+		GiocoDellaVita.getInstance().initVita("011110010"); // R
+		// GiocoDellaVita.getInstance().initVita("010001111"); // Aliante
 	}
 
 }

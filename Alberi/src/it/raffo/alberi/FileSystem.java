@@ -111,12 +111,13 @@ public class FileSystem
 	private void ls(Nodo nodoCorrente)
 	{
 		File[] filesList = nodoCorrente.getElem().getFile().listFiles();
+		nodoCorrente.setNumeroFigli(filesList.length);
 		for (File f : filesList)
 		{
+
 			if (f.isDirectory() && !f.isHidden())
 			{
 				Nodo n = new Nodo(new Elemento(f.getName(), "D", f.length(), f));
-				n.setNumeroFigli(filesList.length);
 				n.setC(Matrice.getInstance().calcolaCentro(this.raggio));
 				nodoCorrente.addFiglio(n);
 				this.ls(n);
