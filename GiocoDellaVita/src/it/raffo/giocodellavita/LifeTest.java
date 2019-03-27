@@ -9,8 +9,8 @@ public class LifeTest extends PApplet
 
 	public static int	generazioni	= 0;
 	public static int	maxCellule	= 0;
-	public static int	hM			= 100;
-	public static int	wM			= 100;
+	public static int	hM			= 200;
+	public static int	wM			= 200;
 
 	public static int	h			= 800;
 	public static int	w			= 800;
@@ -38,12 +38,13 @@ public class LifeTest extends PApplet
 		this.textAlign(this.LEFT);
 		this.textFont(this.createFont("Arial", 32, true), 20);
 		int numCellule = GiocoDellaVita.getInstance().contaCellule();
+		int celleColonizzate = GiocoDellaVita.getInstance().contaCelluleColonizzate();
 		if (numCellule > maxCellule)
 		{
 			maxCellule = numCellule;
 		}
-		this.text("Generazione : " + generazioni + ";      # Cellule : " + numCellule + ";      MAX Cellule : "
-				+ maxCellule, 150, (this.h + (50 + (20 / 2))));
+		this.text("Generazione : " + generazioni + ";   # cellule : " + numCellule + ";   MAX cellule : " + maxCellule
+				+ ";   Celle colonizzate : " + celleColonizzate, 10, (this.h + (50 + (20 / 2))));
 		this.popMatrix();
 	}
 
@@ -74,8 +75,21 @@ public class LifeTest extends PApplet
 		GiocoDellaVita.getInstance().sethM(hM);
 
 		GiocoDellaVita.getInstance().setPa(this);
-		GiocoDellaVita.getInstance().initVita("011110010"); // R
-		// GiocoDellaVita.getInstance().initVita("010001111"); // Aliante
+		GiocoDellaVita.getInstance().initVita("011110010", 3, 3); // R
+		// GiocoDellaVita.getInstance().initVita("010001111",3,3); // Aliante
+		// GiocoDellaVita.getInstance()
+		// .initVita("00000000000000000000000000000000000000" +
+		// "00000000000000000000000001000000000000"
+		// + "00000000000000000000000101000000000000" +
+		// "00000000000001100000011000000000000110"
+		// + "00000000000010001000011000000000000110" +
+		// "01100000000100000100011000000000000000"
+		// + "01100000000100010110000101000000000000" +
+		// "00000000000100000100000001000000000000"
+		// + "00000000000010001000000000000000000000" +
+		// "00000000000001100000000000000000000000"
+		// + "00000000000000000000000000000000000000", 38, 11); // l cannone di
+		// navicelle di Gosper
 	}
 
 }

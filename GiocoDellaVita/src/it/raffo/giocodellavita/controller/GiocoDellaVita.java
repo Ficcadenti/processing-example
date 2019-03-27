@@ -86,6 +86,23 @@ public class GiocoDellaVita
 		return cellule;
 	}
 
+	public int contaCelluleColonizzate()
+	{
+		Cellula[][] m = Matrice.getInstance().getMatrice();
+		int cellule = 0;
+		for (int y = 0; y < this.hM; y++)
+		{
+			for (int x = 0; x < this.wM; x++)
+			{
+				if (m[x][y].isColonizzata())
+				{
+					cellule++;
+				}
+			}
+		}
+		return cellule;
+	}
+
 	private void drawCellula(Cellula cel)
 	{
 
@@ -102,7 +119,7 @@ public class GiocoDellaVita
 		{
 			{
 				if (cel.isColonizzata() && (cel.getOpacita() < 10)) // disegno le celle colonizzate da almeno una
-																	// cellula
+				// cellula
 				{
 					this.pa.fill(238, 252, 234, 70);
 				}
@@ -163,25 +180,21 @@ public class GiocoDellaVita
 		this.drawCellula(v);
 	}
 
-	private void generaFamiglia(String famiglia)
+	private void generaFamiglia(String famiglia, int dx, int dy)
 	{
-
+		int pos = 0;
 		int lato = (int) Math.sqrt(famiglia.length());
 
-		if ((famiglia.length() % lato) != 0)
-		{
-			System.out.println("la stringa non è nel formato corretto deve essere di lunghezza N x N");
-		}
-		else
-		{
-			Cellula v = null;
+		Cellula v = null;
 
-			int possibileCentroX = this.getRandomNumberInRange(0, this.wM - lato);
-			int possibileCentroY = this.getRandomNumberInRange(0, this.hM - lato);
-			for (int i = 0; i < famiglia.length(); i++)
+		int possibileCentroX = this.getRandomNumberInRange(0, this.wM - lato);
+		int possibileCentroY = this.getRandomNumberInRange(0, this.hM - lato);
+		for (int y = 0; y < dy; y++)
+		{
+			for (int x = 0; x < dx; x++)
 			{
-				v = new Cellula(possibileCentroX + (i % lato), possibileCentroY + (i / 3),
-						Integer.parseInt("" + famiglia.charAt(i)));
+				v = new Cellula(possibileCentroX + x, possibileCentroY + y,
+						Integer.parseInt("" + famiglia.charAt(pos++)));
 				Matrice.getInstance().inserisciCellula(v);
 				this.drawCellula(v);
 			}
@@ -265,7 +278,7 @@ public class GiocoDellaVita
 		return this.wM;
 	}
 
-	public void initVita(String famiglia)
+	public void initVita(String famiglia, int dx, int dy)
 	{
 		System.out.println("Gioco della vita start");
 
@@ -283,7 +296,7 @@ public class GiocoDellaVita
 
 		// genero famiglia iniziale
 		// this.generaAdamoEva();
-		this.generaFamiglia(famiglia);
+		this.generaFamiglia(famiglia, dx, dy);
 
 		// this.start(Matrice.getInstance().getMatrice());
 		// this.generazioneSuccessiva(Matrice.getInstance().getMatrice());
