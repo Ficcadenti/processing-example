@@ -7,13 +7,13 @@ import processing.core.PApplet;
 public class LifeTest extends PApplet
 {
 
-	public static int	generazioni	= 0;
-	public static int	maxCellule	= 0;
-	public static int	hM			= 200;
-	public static int	wM			= 200;
+	public static int generazioni = 0;
+	public static int maxCellule  = 0;
+	public static int hM          = 100;
+	public static int wM          = 100;
 
-	public static int	h			= 800;
-	public static int	w			= 800;
+	public static int h           = 800;
+	public static int w           = 800;
 
 	public static void main(String[] args)
 	{
@@ -25,7 +25,6 @@ public class LifeTest extends PApplet
 	{
 		this.background(0);
 		GiocoDellaVita.getInstance().start(Matrice.getInstance().getMatrice());
-		// this.delay(100);
 		GiocoDellaVita.getInstance().generazioneSuccessiva(Matrice.getInstance().getMatrice());
 		generazioni++;
 		this.drawGenerazioni();
@@ -44,7 +43,7 @@ public class LifeTest extends PApplet
 			maxCellule = numCellule;
 		}
 		this.text("Generazione : " + generazioni + ";   # cellule : " + numCellule + ";   MAX cellule : " + maxCellule
-				+ ";   Celle colonizzate : " + celleColonizzate, 10, (this.h + (50 + (20 / 2))));
+		        + ";   Celle colonizzate : " + celleColonizzate, 10, (this.h + (50 + (20 / 2))));
 		this.popMatrix();
 	}
 
@@ -75,7 +74,8 @@ public class LifeTest extends PApplet
 		GiocoDellaVita.getInstance().sethM(hM);
 
 		GiocoDellaVita.getInstance().setPa(this);
-		GiocoDellaVita.getInstance().initVita("011110010", 3, 3); // R
+		// GiocoDellaVita.getInstance().initVita("11101001100111101001", 4, 5); // R
+		GiocoDellaVita.getInstance().initVita("11111000111010011111", 4, 5); // R
 		// GiocoDellaVita.getInstance().initVita("010001111",3,3); // Aliante
 		// GiocoDellaVita.getInstance()
 		// .initVita("00000000000000000000000000000000000000" +
@@ -90,6 +90,16 @@ public class LifeTest extends PApplet
 		// "00000000000001100000000000000000000000"
 		// + "00000000000000000000000000000000000000", 38, 11); // l cannone di
 		// navicelle di Gosper
+		// GiocoDellaVita.getInstance().start(Matrice.getInstance().getMatrice());
+		// Matrice.getInstance().stampaGenerazioneAttuale();
+		// Matrice.getInstance().stampaGenerazioneSuccessiva();
+		//
+		// GiocoDellaVita.getInstance().generazioneSuccessiva(Matrice.getInstance().getMatrice());
+		// Matrice.getInstance().stampaGenerazioneAttuale();
+		//
+		// GiocoDellaVita.getInstance().start(Matrice.getInstance().getMatrice());
+		// GiocoDellaVita.getInstance().generazioneSuccessiva(Matrice.getInstance().getMatrice());
+		// Matrice.getInstance().stampaGenerazioneAttuale();
 	}
 
 }

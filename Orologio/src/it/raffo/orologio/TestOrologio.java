@@ -4,6 +4,7 @@ import processing.core.PApplet;
 
 public class TestOrologio extends PApplet
 {
+
 	static String numeriRomani[] = new String[12];
 
 	// da romani ad arabi (base 10)
@@ -131,8 +132,7 @@ public class TestOrologio extends PApplet
 					if (x <= 0)
 					{
 						value += 1;
-					}
-					else
+					} else
 					{
 						value -= 1;
 					}
@@ -142,8 +142,7 @@ public class TestOrologio extends PApplet
 					if (x <= 1)
 					{
 						value += 5;
-					}
-					else
+					} else
 					{
 						value -= 5;
 					}
@@ -153,8 +152,7 @@ public class TestOrologio extends PApplet
 					if (x <= 2)
 					{
 						value += 10;
-					}
-					else
+					} else
 					{
 						value -= 10;
 					}
@@ -164,8 +162,7 @@ public class TestOrologio extends PApplet
 					if (x <= 3)
 					{
 						value += 50;
-					}
-					else
+					} else
 					{
 						value -= 50;
 					}
@@ -175,8 +172,7 @@ public class TestOrologio extends PApplet
 					if (x <= 4)
 					{
 						value += 100;
-					}
-					else
+					} else
 					{
 						value -= 100;
 					}
@@ -186,8 +182,7 @@ public class TestOrologio extends PApplet
 					if (x <= 5)
 					{
 						value += 500;
-					}
-					else
+					} else
 					{
 						value -= 500;
 					}
@@ -197,8 +192,7 @@ public class TestOrologio extends PApplet
 					if (x <= 6)
 					{
 						value += 1000;
-					}
-					else
+					} else
 					{
 						value -= 1000;
 					}
@@ -224,25 +218,25 @@ public class TestOrologio extends PApplet
 		generaNumeriRomani();
 	}
 
-	int		h				= 1000;
-	int		raggioX			= 300;
-	int		raggioY			= 300;
-	int		raggioCronoX	= 40;
-	int		raggioCronoY	= 40;
-	int		w				= 1000;
-	float	x				= this.w / 2;
-	float	y				= this.h / 2;
-	float	xc;
-	float	yc;
-	float	secondsRadius;
-	boolean	sincro			= false;
+	int     h            = 1000;
+	int     raggioX      = 300;
+	int     raggioY      = 300;
+	int     raggioCronoX = 40;
+	int     raggioCronoY = 40;
+	int     w            = 1000;
+	float   x            = this.w / 2;
+	float   y            = this.h / 2;
+	float   xc;
+	float   yc;
+	float   secondsRadius;
+	boolean sincro       = false;
 
-	int		startM			= 0;
+	int     startM       = 0;
 
-	int		startS			= 0;
+	int     startS       = 0;
 
-	float	millisecondi	= 0;
-	float	secondi			= 0;
+	float   millisecondi = 0;
+	float   secondi      = 0;
 
 	@Override
 	public void draw()
@@ -275,9 +269,9 @@ public class TestOrologio extends PApplet
 		this.textAlign(this.CENTER);
 		this.textFont(this.createFont("Arial", 32, true), 32);
 		this.text(
-				String.format("%02d", hour()) + ":" + String.format("%02d", minute()) + ":"
-						+ String.format("%02d", second()) + " - " + String.format("%03d", (int) this.millisecondi),
-				this.width / 2, 130);
+		        String.format("%02d", hour()) + ":" + String.format("%02d", minute()) + ":"
+		                + String.format("%02d", second()) + " - " + String.format("%03d", (int) this.millisecondi),
+		        this.width / 2, 130);
 
 		xms = (this.raggioCronoX) * cos(ms);
 		yms = (this.raggioCronoY) * sin(ms);

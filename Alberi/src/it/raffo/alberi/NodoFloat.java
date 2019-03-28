@@ -3,22 +3,22 @@ package it.raffo.alberi;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Nodo
+public class NodoFloat
 {
 
-	private Centro     c;
-	private Elemento   elem;
-	private List<Nodo> figli;
-	private Nodo       padre;
-	private int        numeroFigli;
+	private CentroFloat     c;
+	private Elemento        elem;
+	private List<NodoFloat> figli;
+	private NodoFloat       padre;
+	private int             numeroFigli;
 
-	public Nodo() {
+	public NodoFloat() {
 		this.elem = null;
 		this.figli = null;
 		this.padre = null;
 	}
 
-	public Nodo(Elemento elem) {
+	public NodoFloat(Elemento elem) {
 		this.elem = elem;
 		this.numeroFigli = 0;
 		this.figli = null;
@@ -31,10 +31,10 @@ public class Nodo
 		{
 			this.figli = new ArrayList<>();
 		}
-		this.figli.add(new Nodo(elem));
+		this.figli.add(new NodoFloat(elem));
 	}
 
-	public void addFiglio(Nodo f)
+	public void addFiglio(NodoFloat f)
 	{
 		if (this.figli == null)
 		{
@@ -43,7 +43,7 @@ public class Nodo
 		this.figli.add(f);
 	}
 
-	public Centro getC()
+	public CentroFloat getC()
 	{
 		return this.c;
 	}
@@ -53,7 +53,7 @@ public class Nodo
 		return this.elem;
 	}
 
-	public List<Nodo> getFigli()
+	public List<NodoFloat> getFigli()
 	{
 		return this.figli;
 	}
@@ -63,12 +63,12 @@ public class Nodo
 		return this.numeroFigli;
 	}
 
-	public Nodo getPadre()
+	public NodoFloat getPadre()
 	{
 		return this.padre;
 	}
 
-	public void setC(Centro c)
+	public void setC(CentroFloat c)
 	{
 		this.c = c;
 	}
@@ -78,7 +78,7 @@ public class Nodo
 		this.elem = elem;
 	}
 
-	public void setFigli(List<Nodo> figli)
+	public void setFigli(List<NodoFloat> figli)
 	{
 		this.figli = figli;
 	}
@@ -88,7 +88,7 @@ public class Nodo
 		this.numeroFigli = numeroFigli;
 	}
 
-	public void setPadre(Nodo padre)
+	public void setPadre(NodoFloat padre)
 	{
 		this.padre = padre;
 	}

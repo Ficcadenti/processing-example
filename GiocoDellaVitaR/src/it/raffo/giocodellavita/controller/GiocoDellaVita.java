@@ -9,6 +9,7 @@ import processing.core.PApplet;
 
 public class GiocoDellaVita
 {
+
 	private static GiocoDellaVita istanza;
 
 	public static GiocoDellaVita getInstance()
@@ -21,17 +22,17 @@ public class GiocoDellaVita
 		return istanza;
 	}
 
-	private PApplet	pa;
+	private PApplet pa;
 
-	private int		wM, hM;
-	private int		w, h;
-	private int		rapportoMatriceTavoloW;
-	private int		rapportoMatriceTavoloH;
+	private int     wM, hM;
+	private int     w, h;
+	private int     rapportoMatriceTavoloW;
+	private int     rapportoMatriceTavoloH;
 
-	private void calcolaStatoCellula(Cellula v, Cellula m[][])
+	private void calcolaStatoCellula(Cellula v)
 	{
 		int cellule = 0;
-
+		Cellula m[][] = Matrice.getInstance().getMatrice();
 		// creo giardino dell'eden :)
 		GiardinoCellulare g = new GiardinoCellulare(v, this.wM, this.hM);
 		for (int y = g.getgYT(); y <= g.getgYD(); y++)
@@ -44,22 +45,22 @@ public class GiocoDellaVita
 		cellule = cellule - v.getStatoIniziale();
 		// System.out.println("x=" + v.getX() + "; y=" + v.getY() + " cellule=" +
 		// cellule);
-		if ((m[v.getX()][v.getY()].getStatoIniziale() == Cellula.CELLULA_MORTA) && (cellule == 3))
+		if ((v.getStatoIniziale() == Cellula.CELLULA_MORTA) && (cellule == 3))
 		{
 			// System.out.println("NASCERA'");
-			m[v.getX()][v.getY()].setStatoGenerazioneSuccessiva(Cellula.NASCERA);
-			m[v.getX()][v.getY()].setColonizzata(true);
+			v.setStatoGenerazioneSuccessiva(Cellula.NASCERA);
+			v.setColonizzata(true);
 		}
-		if ((m[v.getX()][v.getY()].getStatoIniziale() == Cellula.CELLULA_VIVA) && ((cellule == 2) || (cellule == 3)))
+		if ((v.getStatoIniziale() == Cellula.CELLULA_VIVA) && ((cellule == 2) || (cellule == 3)))
 		{
 			// System.out.println("VIVRA'");
-			m[v.getX()][v.getY()].setStatoGenerazioneSuccessiva(Cellula.VIVRA);
-			m[v.getX()][v.getY()].setColonizzata(true);
+			v.setStatoGenerazioneSuccessiva(Cellula.VIVRA);
+			v.setColonizzata(true);
 		}
-		if ((m[v.getX()][v.getY()].getStatoIniziale() == Cellula.CELLULA_VIVA) && ((cellule < 2) || (cellule > 3)))
+		if ((v.getStatoIniziale() == Cellula.CELLULA_VIVA) && ((cellule < 2) || (cellule > 3)))
 		{
 			// System.out.println("MORIRA' per sovraffolamento");
-			m[v.getX()][v.getY()].setStatoGenerazioneSuccessiva(Cellula.MORIRA);
+			v.setStatoGenerazioneSuccessiva(Cellula.MORIRA);
 		}
 
 	}
@@ -114,20 +115,21 @@ public class GiocoDellaVita
 		if (cel.getStatoIniziale() == Cellula.CELLULA_VIVA)
 		{
 			this.pa.fill(255, 255, 0);
-		}
-		else if (cel.getStatoIniziale() == Cellula.CELLULA_MORTA)
+		} else if (cel.getStatoIniziale() == Cellula.CELLULA_MORTA)
 		{
 			{
-				if (cel.isColonizzata() && (cel.getOpacita() < 10)) // disegno le celle colonizzate da almeno una
+				if (cel.isColonizzata())
+				// if (cel.isColonizzata() && (cel.getOpacita() < 10)) // disegno le celle
+				// colonizzate da almeno una
 				// cellula
 				{
 					this.pa.fill(238, 252, 234, 70);
-				}
-				else
+				} else
 				{
 					int opacita = cel.getOpacita();
-					cel.setOpacita(opacita - Cellula.STEP_OPACITA);
-					this.pa.fill(255, 255, 0, cel.getOpacita());
+					// cel.setOpacita(opacita - Cellula.STEP_OPACITA);
+					// this.pa.fill(255, 255, 0, cel.getOpacita());
+					this.pa.fill(0, 0, 0);
 				}
 			}
 		}
@@ -194,7 +196,7 @@ public class GiocoDellaVita
 			for (int x = 0; x < dx; x++)
 			{
 				v = new Cellula(possibileCentroX + x, possibileCentroY + y,
-						Integer.parseInt("" + famiglia.charAt(pos++)));
+				        Integer.parseInt("" + famiglia.charAt(pos++)));
 				Matrice.getInstance().inserisciCellula(v);
 				this.drawCellula(v);
 			}
@@ -212,20 +214,18 @@ public class GiocoDellaVita
 				stato = m[x][y].getStatoGenerazioneSuccessiva();
 				switch (stato)
 				{
-					case Cellula.MORIRA:
-					{
+					case Cellula.MORIRA: {
 						m[x][y].setStatoIniziale(Cellula.CELLULA_MORTA);
-						this.drawCellula(m[x][y]);
+
 					}
 						break;
-					case Cellula.NASCERA:
-					{
+					case Cellula.NASCERA: {
 						m[x][y].setStatoIniziale(Cellula.CELLULA_VIVA);
-						this.drawCellula(m[x][y]);
+
 					}
 						break;
 				}
-
+				this.drawCellula(m[x][y]);
 			}
 		}
 
@@ -362,14 +362,11 @@ public class GiocoDellaVita
 
 	public void start(Cellula[][] m)
 	{
-		Cellula cel = null;
-		int stato;
 		for (int y = 0; y < this.hM; y++)
 		{
 			for (int x = 0; x < this.wM; x++)
 			{
-				cel = m[x][y];
-				this.calcolaStatoCellula(cel, m);
+				this.calcolaStatoCellula(m[x][y]);
 			}
 		}
 	}
@@ -384,7 +381,7 @@ public class GiocoDellaVita
 		this.drawCellula(v);
 		// Matrice.getInstance().stampaMatrice();
 
-		this.calcolaStatoCellula(v, Matrice.getInstance().getMatrice());
+		this.calcolaStatoCellula(v);
 	}
 
 	public void testOpacita()

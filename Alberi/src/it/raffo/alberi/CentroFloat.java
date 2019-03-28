@@ -1,12 +1,12 @@
 package it.raffo.alberi;
 
-public class Centro
+public class CentroFloat
 {
 
-	private int x;
-	private int y;
+	private float x;
+	private float y;
 
-	public Centro(int x, int y) {
+	public CentroFloat(float x, float y) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -27,29 +27,29 @@ public class Centro
 		{
 			return false;
 		}
-		Centro other = (Centro) obj;
-		if (this.x != other.x)
+		CentroFloat other = (CentroFloat) obj;
+		if (Float.floatToIntBits(this.x) != Float.floatToIntBits(other.x))
 		{
 			return false;
 		}
-		if (this.y != other.y)
+		if (Float.floatToIntBits(this.y) != Float.floatToIntBits(other.y))
 		{
 			return false;
 		}
 		return true;
 	}
 
-	public Centro getCentro()
+	public CentroFloat getCentro()
 	{
-		return new Centro(this.x, this.y);
+		return new CentroFloat(this.x, this.y);
 	}
 
-	public int getX()
+	public float getX()
 	{
 		return this.x;
 	}
 
-	public int getY()
+	public float getY()
 	{
 		return this.y;
 	}
@@ -59,8 +59,8 @@ public class Centro
 	{
 		final int prime = 31;
 		int result = 1;
-		result = (prime * result) + this.x;
-		result = (prime * result) + this.y;
+		result = (prime * result) + Float.floatToIntBits(this.x);
+		result = (prime * result) + Float.floatToIntBits(this.y);
 		return result;
 	}
 

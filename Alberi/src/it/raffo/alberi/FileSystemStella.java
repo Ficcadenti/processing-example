@@ -3,28 +3,30 @@ package it.raffo.alberi;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
 
-public class FileSystem
+public class FileSystemStella
 {
 
-	private int     distanzaMinima;
-	private int     h;
-	private PApplet pa;
-	private int     raggioDirectory;
-	private int     raggioFile;
-	private int     raggio;
-	private Nodo    root;
-	private int     w;
-	private int     maxFigli;
-	private String  nomeDirectoryConFigliMax;
-	private int     profonditaFs;
+	private int       distanzaMinima;
+	private int       h;
+	private PApplet   pa;
+	private int       raggioDirectory;
+	private int       raggioFile;
+	private int       distanzaCentro;
+	private NodoFloat root;
+	private int       w;
+	private int       maxFigli;
+	private String    nomeDirectoryConFigliMax;
+	private int       profonditaFs;
 
-	public FileSystem(PApplet pa, int w, int h) {
+	public FileSystemStella(PApplet pa, int w, int h) {
 		super();
 		this.pa = pa;
 		this.root = null;
@@ -32,8 +34,8 @@ public class FileSystem
 		this.h = h;
 		this.raggioDirectory = 20;
 		this.raggioFile = 5;
-		this.raggio = 5;
 		this.distanzaMinima = 0;
+		this.distanzaCentro = 80;
 		this.maxFigli = 0;
 		this.profonditaFs = 0;
 		this.nomeDirectoryConFigliMax = "----";
@@ -47,7 +49,51 @@ public class FileSystem
 
 	}
 
-	private void drawArco(Nodo nFrom, Nodo nTo)
+	private ArrayList<CentroFloat> calcolaCentriFigli(NodoFloat nodoCorrente, File[] filesList, int dc)
+	{
+		ArrayList<CentroFloat> listaCentri = new ArrayList<>();
+		int raggio = 0;
+		if (filesList.length > 0)
+		{
+			int periodo = 360 / filesList.length;
+
+			float a = 0;
+
+			for (File f : filesList)
+			{
+				float angle = PApplet.radians(a) - PConstants.PI;
+				float x, y;
+				if (f.isDirectory())
+				{
+					raggio = dc + 200;
+
+				} else
+				{
+					raggio = dc;
+
+				}
+				x = nodoCorrente.getC().getX() + ((raggio) * PApplet.sin(angle));
+				y = nodoCorrente.getC().getY() + ((raggio) * PApplet.cos(angle));
+				CentroFloat c = new CentroFloat(x, y);
+				listaCentri.add(c);
+				a -= periodo;
+			}
+			// float x, y;
+			// for (float a = 0; a < 360; a += periodo)
+			// {
+			// float angle = PApplet.radians(a);
+			// x = (this.w / 2) + ((this.distanzaCentro) * PApplet.sin(angle));
+			// y = (this.h / 2) + ((this.distanzaCentro) * PApplet.cos(angle));
+			// CentroFloat c = new CentroFloat(x, y);
+			// listaCentri.add(c);
+			// }
+			// }
+		}
+		return listaCentri;
+
+	}
+
+	private void drawArco(NodoFloat nFrom, NodoFloat nTo)
 	{
 		this.pa.pushMatrix();
 		this.pa.noFill();
@@ -97,7 +143,7 @@ public class FileSystem
 		return this.raggioFile;
 	}
 
-	public Nodo getRoot()
+	public NodoFloat getRoot()
 	{
 		return this.root;
 	}
@@ -123,9 +169,9 @@ public class FileSystem
 			}
 
 			this.setProfonditaFs(1);
-			this.root = new Nodo(new Elemento(file.getName(), type, size, file));
-			Centro c = new Centro(this.w / 2, this.h / 2);
-			// this.root.setC(Matrice.getInstance().calcolaCentro(this.raggio)); casuale
+			this.root = new NodoFloat(new Elemento(file.getName(), type, size, file));
+			CentroFloat c = new CentroFloat(this.w / 2, this.h / 2); // lo metto al centro
+			System.out.println(c);
 			this.root.setC(c);
 			this.ls(this.root);
 			if (this.profonditaFs > this.splitPath(file.getPath()).size())
@@ -135,11 +181,12 @@ public class FileSystem
 		}
 	}
 
-	private void ls(Nodo nodoCorrente)
+	private void ls(NodoFloat nodoCorrente)
 	{
 		File[] filesList = nodoCorrente.getElem().getFile().listFiles();
 		nodoCorrente.setNumeroFigli(filesList.length);
-
+		ArrayList<CentroFloat> listaCentri = this.calcolaCentriFigli(nodoCorrente, filesList, this.distanzaCentro);
+		int cont = 0;
 		for (File f : filesList)
 		{
 
@@ -150,17 +197,20 @@ public class FileSystem
 					this.profonditaFs = this.splitPath(f.getPath()).size();
 				}
 
-				Nodo n = new Nodo(new Elemento(f.getName(), "D", f.length(), f));
-				n.setC(Matrice.getInstance().calcolaCentro(this.raggio));
+				NodoFloat n = new NodoFloat(new Elemento(f.getName(), "D", f.length(), f));
+				n.setC(listaCentri.get(cont));
+				System.out.println("D: " + listaCentri.get(cont));
 				nodoCorrente.addFiglio(n);
 				this.ls(n);
 			}
 			if (f.isFile())
 			{
-				Nodo n = new Nodo(new Elemento(f.getName(), "F", f.length(), f));
-				n.setC(Matrice.getInstance().calcolaCentro(this.raggio));
+				NodoFloat n = new NodoFloat(new Elemento(f.getName(), "F", f.length(), f));
+				n.setC(listaCentri.get(cont));
+				System.out.println("F: " + listaCentri.get(cont));
 				nodoCorrente.addFiglio(n);
 			}
+			cont++;
 		}
 	}
 
@@ -194,7 +244,7 @@ public class FileSystem
 		this.raggioFile = raggioFile;
 	}
 
-	public void setRoot(Nodo root)
+	public void setRoot(NodoFloat root)
 	{
 		this.root = root;
 	}
@@ -227,19 +277,20 @@ public class FileSystem
 		{
 			String str = this.root.getElem().getNome() + " (" + this.root.getElem().getType() + ")";
 			System.out.println(" directory di partenza: " + str);
+			System.out.println("root: " + this.root.getC());
 			this.stampaTxtFx(this.root);
 			this.stampaAlbero(this.root);
 		}
 
 	}
 
-	public void stampaAlbero(Nodo nodoCorrente)
+	public void stampaAlbero(NodoFloat nodoCorrente)
 	{
 
 		if (nodoCorrente.getFigli() != null)
 		{
 
-			for (Nodo n : nodoCorrente.getFigli())
+			for (NodoFloat n : nodoCorrente.getFigli())
 			{
 				if (n.getNumeroFigli() > this.maxFigli)
 				{
@@ -247,10 +298,7 @@ public class FileSystem
 					this.nomeDirectoryConFigliMax = n.getElem().getFile().getAbsolutePath();
 				}
 				this.drawArco(nodoCorrente, n);
-				nodoCorrente.getC().getX();
 				this.stampaTxtFx(n);
-				System.out.println(n);
-
 				if (n.getElem().getType().equalsIgnoreCase("D"))
 				{
 					this.stampaAlbero(n);
@@ -259,7 +307,7 @@ public class FileSystem
 		}
 	}
 
-	public void stampaTxtFx(Nodo n)
+	public void stampaTxtFx(NodoFloat n)
 	{
 		this.pa.pushMatrix();
 		String str = n.getElem().getNome() + " (" + n.getElem().getType() + ")";
@@ -271,7 +319,7 @@ public class FileSystem
 			this.pa.ellipse(n.getC().getX(), n.getC().getY(), this.raggioDirectory * 2, this.raggioDirectory * 2);
 			this.pa.fill(this.pa.random(255), this.pa.random(255), this.pa.random(255));
 			this.pa.ellipse(n.getC().getX(), n.getC().getY(), (this.raggioDirectory * 2) - 6, (this.raggioDirectory * 2) - 6);
-		} else // file
+		} else
 		{
 			this.pa.fill(this.pa.random(255), this.pa.random(255), this.pa.random(255));
 			this.pa.ellipse(n.getC().getX(), n.getC().getY(), (this.raggioFile * 2), (this.raggioFile * 2));

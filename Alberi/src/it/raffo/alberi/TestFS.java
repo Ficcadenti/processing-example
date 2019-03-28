@@ -6,7 +6,8 @@ import processing.core.PApplet;
 
 public class TestFS extends PApplet
 {
-	static FileSystem fs;
+
+	static FileSystemStella fs;
 
 	public static void main(String[] args)
 	{
@@ -14,8 +15,8 @@ public class TestFS extends PApplet
 
 	}
 
-	int	h	= 1900;
-	int	w	= 1600;
+	int h = 1000;
+	int w = 1400;
 
 	@Override
 	public void draw()
@@ -44,8 +45,8 @@ public class TestFS extends PApplet
 	{
 		this.background(0);
 		this.generaPunti(200);
-		fs = new FileSystem(this, this.h, this.w);
-		fs.ls(new File("D:\\doganeprj"));
+		fs = new FileSystemStella(this, this.h, this.w);
+		fs.ls(new File("d:\\doganeprj"));
 		long timeSinceStart = System.currentTimeMillis();
 		fs.stampaAlbero();
 		long timeSinceStop = System.currentTimeMillis();
@@ -54,8 +55,9 @@ public class TestFS extends PApplet
 		System.out.println("Time stop                    : " + timeSinceStop + " (nanosecondi)");
 		System.out.println("Delta time                   : " + ((timeSinceStop - timeSinceStart)) + " (millisecondi)");
 		System.out.println("Collisioni                   : " + Matrice.getInstance().getCollisioniGlobali());
-		System.out.println("Directory con max figli : " + fs.getNomeMax());
-		System.out.println("Numero figli            : " + fs.getMax());
+		System.out.println("Directory con max figli      : " + fs.getNomeDirectoryConFigliMax());
+		System.out.println("Numero figli                 : " + fs.getMaxFigli());
+		System.out.println("Profondita fs                : " + fs.getProfonditaFs());
 
 	}
 
