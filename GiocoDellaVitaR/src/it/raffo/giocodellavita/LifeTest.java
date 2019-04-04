@@ -1,33 +1,63 @@
 package it.raffo.giocodellavita;
 
 import it.raffo.giocodellavita.controller.GiocoDellaVita;
+import it.raffo.giocodellavita.model.Cellula;
 import it.raffo.giocodellavita.model.Matrice;
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class LifeTest extends PApplet
 {
 
-	public static int generazioni = 0;
-	public static int maxCellule  = 0;
-	public static int hM          = 100;
-	public static int wM          = 100;
+	public static int     generazioni = 0;
+	public static int     maxCellule  = 0;
+	public static int     hM          = 100;
+	public static int     wM          = 100;
 
-	public static int h           = 800;
-	public static int w           = 800;
+	public static int     h           = 800;
+	public static int     w           = 800;
+	public static boolean start       = false;
+	public static PImage  img;
 
 	public static void main(String[] args)
 	{
 		PApplet.main("it.raffo.giocodellavita.LifeTest");
 	}
 
+	public void buttonOK()
+	{
+		this.pushMatrix();
+		this.noFill();
+		this.stroke(255, 0, 0);
+		this.rect((w / 2) - 50, 870, 100, 50);
+		this.fill(255);
+		this.textAlign(this.CENTER);
+		this.textFont(this.createFont("Arial", 32, true), 20);
+		this.text("Start", (w / 2), 900);
+		this.stroke(100, 100, 100);
+		// this.image(img, (w / 2), 900, 50, 50);
+		this.popMatrix();
+	}
+
 	@Override
 	public void draw()
 	{
-		this.background(0);
-		GiocoDellaVita.getInstance().start(Matrice.getInstance().getMatrice());
-		GiocoDellaVita.getInstance().generazioneSuccessiva(Matrice.getInstance().getMatrice());
-		generazioni++;
-		this.drawGenerazioni();
+		if ((this.mousePressed == true) && (this.mouseX > ((w / 2) - 50)) && (((w / 2) - 50) < ((w / 2) + 50)))
+		{
+			if ((this.mouseY > 870) && (this.mouseY < 920))
+			{
+				start = true;
+			}
+		}
+		if (start)
+		{
+			this.background(0);
+			GiocoDellaVita.getInstance().start(Matrice.getInstance().getMatrice());
+			GiocoDellaVita.getInstance().generazioneSuccessiva(Matrice.getInstance().getMatrice());
+			generazioni++;
+			this.drawGenerazioni();
+		}
+		this.buttonOK();
 	}
 
 	public void drawGenerazioni()
@@ -58,15 +88,58 @@ public class LifeTest extends PApplet
 	}
 
 	@Override
+	public void mouseDragged()
+	{
+		if (this.mouseY < 800)
+		{
+			System.out
+			        .println("mouseDragged: " + (this.mouseX / GiocoDellaVita.getInstance().getRapportoMatriceTavoloW()) + ","
+			                + (this.mouseY / GiocoDellaVita.getInstance().getRapportoMatriceTavoloH()));
+			Cellula c;
+			if (this.mouseButton == LEFT)
+			{
+				c = new Cellula(this.mouseX / GiocoDellaVita.getInstance().getRapportoMatriceTavoloW(), this.mouseY / GiocoDellaVita.getInstance().getRapportoMatriceTavoloH(),
+				        Cellula.CELLULA_VIVA);
+				c.setColonizzata(false);
+			} else
+			{
+				c = new Cellula(this.mouseX / GiocoDellaVita.getInstance().getRapportoMatriceTavoloW(), this.mouseY / GiocoDellaVita.getInstance().getRapportoMatriceTavoloH(),
+				        Cellula.CELLULA_MORTA);
+				c.setColonizzata(false);
+			}
+			Matrice.getInstance().inserisciCellula(c);
+			GiocoDellaVita.getInstance().drawCellula(c);
+		}
+
+	}
+
+	// @Override
+	// public void mousePressed()
+	// {
+	// System.out.println("Pressed: " + this.mouseX + "," + this.mouseY + ", " +
+	// this.mouseButton);
+	// if ((this.mousePressed == true) && (this.mouseX > ((w / 2) - 50)) && (((w /
+	// 2) - 50) < ((w / 2) + 50)))
+	// {
+	// if ((this.mouseY > 870) && (this.mouseY < 920))
+	// {
+	// start = true;
+	// }
+	// }
+	// }
+
+	@Override
 	public void settings()
 	{
-		this.size(this.w, this.h + 100);
+		this.size(this.w, this.h + 150);
 	}
 
 	@Override
 	public void setup()
 	{
 		this.background(0);
+
+		img = this.loadImage("start.png");
 
 		GiocoDellaVita.getInstance().setW(w);
 		GiocoDellaVita.getInstance().setH(h);

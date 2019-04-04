@@ -104,7 +104,7 @@ public class GiocoDellaVita
 		return cellule;
 	}
 
-	private void drawCellula(Cellula cel)
+	public void drawCellula(Cellula cel)
 	{
 
 		int x = cel.getX() * this.getRapportoMatriceTavoloW();
@@ -118,13 +118,13 @@ public class GiocoDellaVita
 		} else if (cel.getStatoIniziale() == Cellula.CELLULA_MORTA)
 		{
 			{
-				if (cel.isColonizzata())
-				// if (cel.isColonizzata() && (cel.getOpacita() < 10)) // disegno le celle
-				// colonizzate da almeno una
-				// cellula
-				{
-					this.pa.fill(238, 252, 234, 70);
-				} else
+				// if (cel.isColonizzata())
+				// // if (cel.isColonizzata() && (cel.getOpacita() < 10)) // disegno le celle
+				// // colonizzate da almeno una
+				// // cellula
+				// {
+				// this.pa.fill(238, 252, 234, 70);
+				// } else
 				{
 					int opacita = cel.getOpacita();
 					// cel.setOpacita(opacita - Cellula.STEP_OPACITA);
@@ -191,6 +191,7 @@ public class GiocoDellaVita
 
 		int possibileCentroX = this.getRandomNumberInRange(0, this.wM - lato);
 		int possibileCentroY = this.getRandomNumberInRange(0, this.hM - lato);
+
 		for (int y = 0; y < dy; y++)
 		{
 			for (int x = 0; x < dx; x++)
@@ -296,7 +297,7 @@ public class GiocoDellaVita
 
 		// genero famiglia iniziale
 		// this.generaAdamoEva();
-		this.generaFamiglia(famiglia, dx, dy);
+		// this.generaFamiglia(famiglia, dx, dy);
 
 		// this.start(Matrice.getInstance().getMatrice());
 		// this.generazioneSuccessiva(Matrice.getInstance().getMatrice());
