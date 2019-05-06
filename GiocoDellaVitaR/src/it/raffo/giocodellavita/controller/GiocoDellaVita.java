@@ -22,12 +22,12 @@ public class GiocoDellaVita
 		return istanza;
 	}
 
-	private PApplet pa;
+	private PApplet	pa;
 
-	private int     wM, hM;
-	private int     w, h;
-	private int     rapportoMatriceTavoloW;
-	private int     rapportoMatriceTavoloH;
+	private int		wM, hM;
+	private int		w, h;
+	private int		rapportoMatriceTavoloW;
+	private int		rapportoMatriceTavoloH;
 
 	private void calcolaStatoCellula(Cellula v)
 	{
@@ -115,7 +115,8 @@ public class GiocoDellaVita
 		if (cel.getStatoIniziale() == Cellula.CELLULA_VIVA)
 		{
 			this.pa.fill(255, 255, 0);
-		} else if (cel.getStatoIniziale() == Cellula.CELLULA_MORTA)
+		}
+		else if (cel.getStatoIniziale() == Cellula.CELLULA_MORTA)
 		{
 			{
 				// if (cel.isColonizzata())
@@ -197,7 +198,7 @@ public class GiocoDellaVita
 			for (int x = 0; x < dx; x++)
 			{
 				v = new Cellula(possibileCentroX + x, possibileCentroY + y,
-				        Integer.parseInt("" + famiglia.charAt(pos++)));
+						Integer.parseInt("" + famiglia.charAt(pos++)));
 				Matrice.getInstance().inserisciCellula(v);
 				this.drawCellula(v);
 			}
@@ -215,12 +216,14 @@ public class GiocoDellaVita
 				stato = m[x][y].getStatoGenerazioneSuccessiva();
 				switch (stato)
 				{
-					case Cellula.MORIRA: {
+					case Cellula.MORIRA:
+					{
 						m[x][y].setStatoIniziale(Cellula.CELLULA_MORTA);
 
 					}
 						break;
-					case Cellula.NASCERA: {
+					case Cellula.NASCERA:
+					{
 						m[x][y].setStatoIniziale(Cellula.CELLULA_VIVA);
 
 					}
@@ -297,7 +300,7 @@ public class GiocoDellaVita
 
 		// genero famiglia iniziale
 		// this.generaAdamoEva();
-		// this.generaFamiglia(famiglia, dx, dy);
+		this.generaFamiglia(famiglia, dx, dy);
 
 		// this.start(Matrice.getInstance().getMatrice());
 		// this.generazioneSuccessiva(Matrice.getInstance().getMatrice());

@@ -9,15 +9,15 @@ import processing.core.PImage;
 public class LifeTest extends PApplet
 {
 
-	public static int     generazioni = 0;
-	public static int     maxCellule  = 0;
-	public static int     hM          = 100;
-	public static int     wM          = 100;
+	public static int		generazioni	= 0;
+	public static int		maxCellule	= 0;
+	public static int		hM			= 100;
+	public static int		wM			= 100;
 
-	public static int     h           = 800;
-	public static int     w           = 800;
-	public static boolean start       = false;
-	public static PImage  img;
+	public static int		h			= 800;
+	public static int		w			= 800;
+	public static boolean	start		= false;
+	public static PImage	img;
 
 	public static void main(String[] args)
 	{
@@ -72,8 +72,7 @@ public class LifeTest extends PApplet
 		{
 			maxCellule = numCellule;
 		}
-		this.text("Generazione : " + generazioni + ";   # cellule : " + numCellule + ";   MAX cellule : " + maxCellule
-		        + ";   Celle colonizzate : " + celleColonizzate, 10, (this.h + (50 + (20 / 2))));
+		this.text("Generazione : " + generazioni + ";   # cellule : " + numCellule + ";   MAX cellule : " + maxCellule + ";   Celle colonizzate : " + celleColonizzate, 10, (this.h + (50 + (20 / 2))));
 		this.popMatrix();
 	}
 
@@ -92,19 +91,16 @@ public class LifeTest extends PApplet
 	{
 		if (this.mouseY < 800)
 		{
-			System.out
-			        .println("mouseDragged: " + (this.mouseX / GiocoDellaVita.getInstance().getRapportoMatriceTavoloW()) + ","
-			                + (this.mouseY / GiocoDellaVita.getInstance().getRapportoMatriceTavoloH()));
+			System.out.println("mouseDragged: " + (this.mouseX / GiocoDellaVita.getInstance().getRapportoMatriceTavoloW()) + "," + (this.mouseY / GiocoDellaVita.getInstance().getRapportoMatriceTavoloH()));
 			Cellula c;
 			if (this.mouseButton == LEFT)
 			{
-				c = new Cellula(this.mouseX / GiocoDellaVita.getInstance().getRapportoMatriceTavoloW(), this.mouseY / GiocoDellaVita.getInstance().getRapportoMatriceTavoloH(),
-				        Cellula.CELLULA_VIVA);
+				c = new Cellula(this.mouseX / GiocoDellaVita.getInstance().getRapportoMatriceTavoloW(), this.mouseY / GiocoDellaVita.getInstance().getRapportoMatriceTavoloH(), Cellula.CELLULA_VIVA);
 				c.setColonizzata(false);
-			} else
+			}
+			else
 			{
-				c = new Cellula(this.mouseX / GiocoDellaVita.getInstance().getRapportoMatriceTavoloW(), this.mouseY / GiocoDellaVita.getInstance().getRapportoMatriceTavoloH(),
-				        Cellula.CELLULA_MORTA);
+				c = new Cellula(this.mouseX / GiocoDellaVita.getInstance().getRapportoMatriceTavoloW(), this.mouseY / GiocoDellaVita.getInstance().getRapportoMatriceTavoloH(), Cellula.CELLULA_MORTA);
 				c.setColonizzata(false);
 			}
 			Matrice.getInstance().inserisciCellula(c);
@@ -148,7 +144,7 @@ public class LifeTest extends PApplet
 
 		GiocoDellaVita.getInstance().setPa(this);
 		// GiocoDellaVita.getInstance().initVita("11101001100111101001", 4, 5); // R
-		GiocoDellaVita.getInstance().initVita("11111000111010011111", 4, 5); // R
+		GiocoDellaVita.getInstance().initVita("0111001101100011011101010111001101100001", 8, 5); // R
 		// GiocoDellaVita.getInstance().initVita("010001111",3,3); // Aliante
 		// GiocoDellaVita.getInstance()
 		// .initVita("00000000000000000000000000000000000000" +
